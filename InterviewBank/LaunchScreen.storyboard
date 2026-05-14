@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="card-001">
+                                <rect key="frame" x="56" y="290" width="281" height="272"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="building.columns.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="icon-001">
+                                        <rect key="frame" x="98.666666666666657" y="44.333333333333314" width="84" height="83.666666666666686"/>
+                                        <color key="tintColor" red="0.23529411759999999" green="0.72156862749999995" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="84" id="icon-height"/>
+                                            <constraint firstAttribute="width" constant="84" id="icon-width"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="SimpleBank" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="title-001">
+                                        <rect key="frame" x="32" y="146" width="217" height="38.333333333333343"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Smart money, simple decisions" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="subtitle-001">
+                                        <rect key="frame" x="24" y="190.33333333333331" width="233" height="40.666666666666657"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.78039215689999997" green="0.8509803922000001" blue="0.92941176470000009" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.070588235289999995" green="0.1019607843" blue="0.16078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="icon-001" firstAttribute="top" secondItem="card-001" secondAttribute="top" constant="44" id="c-icon-top"/>
+                                    <constraint firstItem="icon-001" firstAttribute="centerX" secondItem="card-001" secondAttribute="centerX" id="c-icon-x"/>
+                                    <constraint firstItem="subtitle-001" firstAttribute="leading" secondItem="card-001" secondAttribute="leading" constant="24" id="c-subtitle-leading"/>
+                                    <constraint firstItem="subtitle-001" firstAttribute="top" secondItem="title-001" secondAttribute="bottom" constant="6" id="c-subtitle-top"/>
+                                    <constraint firstAttribute="trailing" secondItem="subtitle-001" secondAttribute="trailing" constant="24" id="c-subtitle-trailing"/>
+                                    <constraint firstItem="title-001" firstAttribute="leading" secondItem="card-001" secondAttribute="leading" constant="32" id="c-title-leading"/>
+                                    <constraint firstItem="title-001" firstAttribute="top" secondItem="icon-001" secondAttribute="bottom" constant="18" id="c-title-top"/>
+                                    <constraint firstAttribute="trailing" secondItem="title-001" secondAttribute="trailing" constant="32" id="c-title-trailing"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
+                        <color key="backgroundColor" red="0.027450980390000001" green="0.047058823530000002" blue="0.086274509799999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="card-001" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="card-center-x"/>
+                            <constraint firstItem="card-001" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="card-center-y"/>
+                            <constraint firstItem="card-001" firstAttribute="height" constant="272" id="card-height"/>
+                            <constraint firstItem="card-001" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="56" id="card-leading"/>
+                            <constraint firstAttribute="trailing" secondItem="card-001" secondAttribute="trailing" constant="56" id="card-trailing"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="building.columns.fill" catalog="system" width="128" height="112"/>
+    </resources>
+</document>

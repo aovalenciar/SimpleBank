@@ -11,7 +11,11 @@ import SwiftUI
 struct InterviewBankApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            InvestmentsView(
+                viewModel: InvestmentsViewModel(
+                    fetchInvestmentsUseCase: FetchInvestmentsUseCase()
+                )
+            )
         }
     }
 }
