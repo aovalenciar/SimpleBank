@@ -13,7 +13,9 @@ struct InterviewBankApp: App {
         WindowGroup {
             InvestmentsView(
                 viewModel: InvestmentsViewModel(
-                    fetchInvestmentsUseCase: FetchInvestmentsUseCase()
+                    fetchInvestmentsUseCase: FetchInvestmentsUseCase(
+                        repository: InvestmentsRepository()
+                    )
                 )
             )
         }

@@ -27,6 +27,7 @@
 		3928309B2FB2647900C8D1D7 /* InterviewBank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InterviewBank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		392830A82FB2647D00C8D1D7 /* InterviewBankTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InterviewBankTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		392830B22FB2647D00C8D1D7 /* InterviewBankUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InterviewBankUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		39FE06282FB67C8C00ACDC2E /* InterviewBank.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = InterviewBank.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +76,7 @@
 		392830922FB2647900C8D1D7 = {
 			isa = PBXGroup;
 			children = (
+				39FE06282FB67C8C00ACDC2E /* InterviewBank.xctestplan */,
 				3928309D2FB2647900C8D1D7 /* InterviewBank */,
 				392830AB2FB2647D00C8D1D7 /* InterviewBankTests */,
 				392830B52FB2647D00C8D1D7 /* InterviewBankUITests */,
@@ -415,7 +417,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -448,7 +450,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
