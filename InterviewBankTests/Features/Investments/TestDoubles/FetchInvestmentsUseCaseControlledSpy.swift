@@ -11,22 +11,35 @@ final class FetchInvestmentsUseCaseControlledSpy: FetchInvestmentsUseCaseProtoco
 
     private(set) var executeCallCount = 0
     private var continuation: CheckedContinuation<[Investment], Error>?
+    private var pendingResult: Result<[Investment], Error>?
 
     func execute() async throws -> [Investment] {
         executeCallCount += 1
 
         return try await withCheckedThrowingContinuation { continuation in
-            self.continuation = continuation
+            if let pendingResult {
+                self.pendingResult = nil
+                continuation.resume(with: pendingResult)
+            } else {
+                self.continuation = continuation
+            }
         }
     }
 
     func complete(with investments: [Investment]) {
-        continuation?.resume(returning: investments)
-        continuation = nil
+        complete(with: .success(investments))
     }
 
     func complete(with error: Error) {
-        continuation?.resume(throwing: error)
-        continuation = nil
+        complete(with: .failure(error))
+    }
+
+    private func complete(with result: Result<[Investment], Error>) {
+        if let continuation {
+            self.continuation = nil
+            continuation.resume(with: result)
+        } else {
+            pendingResult = result
+        }
     }
 }
