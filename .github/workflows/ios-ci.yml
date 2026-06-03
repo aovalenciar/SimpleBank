@@ -32,6 +32,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Show Xcode version
+        run: |
+          xcodebuild -version
+          xcode-select -p
+
+      - name: List available simulators
+        run: xcrun simctl list devices available
+
       - name: Run unit tests
         run: |
           xcodebuild test \
