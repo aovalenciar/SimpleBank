@@ -5,8 +5,13 @@ on:
     branches:
       - main
 
+  pull_request:
+    branches:
+      - main
+
 jobs:
-  test:
+  lint:
+    name: SwiftLint
     runs-on: macos-15
 
     steps:
@@ -19,8 +24,17 @@ jobs:
       - name: Run SwiftLint
         run: swiftlint
 
-      - name: Run tests
+  tests:
+    name: Unit Tests
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run unit tests
         run: |
           xcodebuild test \
             -scheme InterviewBank \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -only-testing:InterviewBankTests
