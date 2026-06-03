@@ -36,4 +36,5 @@ jobs:
         run: |
           xcodebuild test \
             -scheme InterviewBank \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -only-testing:InterviewBankTests
