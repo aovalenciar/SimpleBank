@@ -70,7 +70,7 @@ final class InvestmentsViewModelTests: XCTestCase {
             await sut.load()
         }
 
-        await Task.yield()
+        await useCase.waitUntilExecuteIsCalled()
 
         XCTAssertEqual(sut.state, .loading)
         XCTAssertEqual(useCase.executeCallCount, 1)
