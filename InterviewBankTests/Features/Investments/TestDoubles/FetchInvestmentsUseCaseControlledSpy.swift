@@ -12,11 +12,13 @@ final class FetchInvestmentsUseCaseControlledSpy: FetchInvestmentsUseCaseProtoco
     private(set) var executeCallCount = 0
     private var continuation: CheckedContinuation<[Investment], Error>?
     private var pendingResult: Result<[Investment], Error>?
+    private var onExecute: (() -> Void)?
 
     // MARK: - FetchInvestmentsUseCaseProtocol
-    
+
     func execute() async throws -> [Investment] {
         executeCallCount += 1
+        onExecute?()
 
         return try await withCheckedThrowingContinuation { continuation in
             if let pendingResult {
@@ -27,7 +29,7 @@ final class FetchInvestmentsUseCaseControlledSpy: FetchInvestmentsUseCaseProtoco
             }
         }
     }
-    
+
     // MARK: - Utils
 
     func complete(with investments: [Investment]) {
@@ -36,6 +38,18 @@ final class FetchInvestmentsUseCaseControlledSpy: FetchInvestmentsUseCaseProtoco
 
     func complete(with error: Error) {
         complete(with: .failure(error))
+    }
+
+    func waitUntilExecuteIsCalled() async {
+        if executeCallCount > 0 {
+            return
+        }
+
+        await withCheckedContinuation { continuation in
+            onExecute = {
+                continuation.resume()
+            }
+        }
     }
 
     private func complete(with result: Result<[Investment], Error>) {
