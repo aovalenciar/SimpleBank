@@ -72,10 +72,11 @@ final class InvestmentsViewModelTests: XCTestCase {
 
         await useCase.waitUntilExecuteIsCalled()
 
+        let executeCallCount = await useCase.executeCallCount
         XCTAssertEqual(sut.state, .loading)
-        XCTAssertEqual(useCase.executeCallCount, 1)
+        XCTAssertEqual(executeCallCount, 1)
 
-        useCase.complete(with: [])
+        await useCase.complete(with: [])
 
         await task.value
     }
