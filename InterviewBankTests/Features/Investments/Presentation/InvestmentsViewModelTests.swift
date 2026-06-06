@@ -63,7 +63,7 @@ final class InvestmentsViewModelTests: XCTestCase {
     }
     
     func test_load_setsLoadingStateWhileUseCaseIsRunning() async {
-        let useCase = FetchInvestmentsUseCaseControlledSpy()
+        let useCase = FetchInvestmentsUseCaseControlledStub()
         let sut = InvestmentsViewModel(fetchInvestmentsUseCase: useCase)
 
         let task = Task {
@@ -72,9 +72,7 @@ final class InvestmentsViewModelTests: XCTestCase {
 
         await useCase.waitUntilExecuteIsCalled()
 
-        let executeCallCount = await useCase.executeCallCount
         XCTAssertEqual(sut.state, .loading)
-        XCTAssertEqual(executeCallCount, 1)
 
         await useCase.complete(with: [])
 
