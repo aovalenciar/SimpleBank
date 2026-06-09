@@ -7,28 +7,22 @@
 
 import SwiftUI
 
-struct InvestmentsView: View {
+struct InvestmentsContentView: View {
 
-    @StateObject private var viewModel: InvestmentsViewModel
-
-    init(viewModel: InvestmentsViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+    let state: InvestmentsViewState
+    let onRetry: () -> Void
+    let onSelectInvestment: (UUID) -> Void
 
     var body: some View {
-        NavigationStack {
-            content
-                .navigationTitle("Inversiones")
-        }
-        .task {
-            await viewModel.load()
-        }
+        content
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(.systemBackground))
     }
 
     @ViewBuilder
     private var content: some View {
-        switch viewModel.state {
-        case .loading:
+        switch state {
+        case .idle, .loading:
             ProgressView("Cargando inversiones...")
 
         case .empty:
@@ -40,19 +34,11 @@ struct InvestmentsView: View {
 
         case .success(let rows):
             List(rows) { row in
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(row.title)
-                        .font(.headline)
-
-                    Text(row.balanceText)
-                        .font(.title3)
-                        .fontWeight(.semibold)
-
-                    Text(row.annualRateText)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-                .padding(.vertical, 8)
+                InvestmentRowView(row: row)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        onSelectInvestment(row.id)
+                    }
             }
 
         case .error(let message):
@@ -64,12 +50,51 @@ struct InvestmentsView: View {
                     .multilineTextAlignment(.center)
 
                 Button("Reintentar") {
-                    Task {
-                        await viewModel.load()
-                    }
+                    onRetry()
                 }
             }
             .padding()
+        }
+    }
+}
+
+struct InvestmentsView: View {
+
+    @StateObject private var viewModel: InvestmentsViewModel
+    @StateObject private var router: InvestmentsRouter
+
+    init(
+        viewModel: InvestmentsViewModel,
+        router: InvestmentsRouter
+    ) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+        _router = StateObject(wrappedValue: router)
+    }
+
+    var body: some View {
+        NavigationStack(path: $router.path) {
+            InvestmentsContentView(
+                state: viewModel.state,
+                onRetry: {
+                    Task {
+                        await viewModel.load()
+                    }
+                },
+                onSelectInvestment: { id in
+                    router.navigateToDetail(id: id)
+                }
+            )
+            .navigationTitle("Investments")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(for: InvestmentsRoute.self) { route in
+                switch route {
+                case .detail(let id):
+                    InvestmentDetailView(investmentID: id)
+                }
+            }
+            .task {
+                await viewModel.loadIfNeeded()
+            }
         }
     }
 }

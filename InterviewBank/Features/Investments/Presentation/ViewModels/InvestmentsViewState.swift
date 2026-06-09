@@ -6,6 +6,7 @@
 //
 
 enum InvestmentsViewState: Equatable {
+    case idle
     case loading
     case success([InvestmentRowViewModel])
     case empty

@@ -11,12 +11,22 @@ import Combine
 @MainActor
 final class InvestmentsViewModel: ObservableObject {
 
-    @Published private(set) var state: InvestmentsViewState = .loading
+    @Published private(set) var state: InvestmentsViewState = .idle
 
     private let fetchInvestmentsUseCase: FetchInvestmentsUseCaseProtocol
 
-    init(fetchInvestmentsUseCase: FetchInvestmentsUseCaseProtocol) {
+    init(
+        fetchInvestmentsUseCase: FetchInvestmentsUseCaseProtocol,
+        initialState: InvestmentsViewState = .idle
+    ) {
         self.fetchInvestmentsUseCase = fetchInvestmentsUseCase
+        self.state = initialState
+    }
+    
+    func loadIfNeeded() async {
+        guard state == .idle else { return }
+        
+        await load()
     }
 
     func load() async {
