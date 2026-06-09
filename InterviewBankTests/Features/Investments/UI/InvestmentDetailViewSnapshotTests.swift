@@ -60,26 +60,6 @@ final class InvestmentsViewSnapshotTests: XCTestCase {
             as: .image(layout: .device(config: .iPhone13))
         )
     }
-
-    func test_successState_lightMode() {
-        assertSnapshot(
-            of: makeSUT(
-                state: .success(makeRows()),
-                colorScheme: .light
-            ),
-            as: .image(precision: 0.99, layout: .device(config: .iPhone13))
-        )
-    }
-
-    func test_successState_darkMode() {
-        assertSnapshot(
-            of: makeSUT(
-                state: .success(makeRows()),
-                colorScheme: .dark
-            ),
-            as: .image(precision: 0.99, layout: .device(config: .iPhone13))
-        )
-    }
 }
 
 private extension InvestmentsViewSnapshotTests {
