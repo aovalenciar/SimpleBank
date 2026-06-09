@@ -10,15 +10,23 @@ import SwiftUI
 struct InvestmentsView: View {
 
     @StateObject private var viewModel: InvestmentsViewModel
+    @StateObject private var router: InvestmentsRouter
 
-    init(viewModel: InvestmentsViewModel) {
+    init(viewModel: InvestmentsViewModel,
+         router: InvestmentsRouter) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        _router = StateObject(wrappedValue: router)
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $router.path) {
             content
-                .navigationTitle("Inversiones")
+                .navigationDestination(for: InvestmentsRoute.self) { route in
+                    switch route {
+                    case .detail(let id):
+                        InvestmentDetailView(investmentID: id)
+                    }
+                }
         }
         .task {
             await viewModel.load()
@@ -40,19 +48,11 @@ struct InvestmentsView: View {
 
         case .success(let rows):
             List(rows) { row in
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(row.title)
-                        .font(.headline)
-
-                    Text(row.balanceText)
-                        .font(.title3)
-                        .fontWeight(.semibold)
-
-                    Text(row.annualRateText)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-                .padding(.vertical, 8)
+                InvestmentRowView(row: row)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        router.navigateToDetail(id: row.id)
+                    }
             }
 
         case .error(let message):
