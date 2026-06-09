@@ -19,6 +19,18 @@ final class InvestmentsRouterTests: XCTestCase {
 
         XCTAssertEqual(sut.path, [.detail(id: id)])
     }
+    
+    func test_navigateToDetail_addsRouteToPath() {
+        let sut = InvestmentsRouter()
+        let id = UUID()
+
+        sut.navigateToDetail(id: id)
+
+        XCTAssertEqual(
+            sut.path,
+            [.detail(id: id)]
+        )
+    }
 
     func test_pop_removesLastRoute() {
         let sut = InvestmentsRouter()
