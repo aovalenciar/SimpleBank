@@ -23,6 +23,8 @@ struct InvestmentDetailView: View {
                 .multilineTextAlignment(.center)
         }
         .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(.systemBackground))
         .navigationTitle("Detail")
     }
 }
