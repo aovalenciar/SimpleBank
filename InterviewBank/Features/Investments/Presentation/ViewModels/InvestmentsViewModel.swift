@@ -15,8 +15,12 @@ final class InvestmentsViewModel: ObservableObject {
 
     private let fetchInvestmentsUseCase: FetchInvestmentsUseCaseProtocol
 
-    init(fetchInvestmentsUseCase: FetchInvestmentsUseCaseProtocol) {
+    init(
+        fetchInvestmentsUseCase: FetchInvestmentsUseCaseProtocol,
+        initialState: InvestmentsViewState = .loading
+    ) {
         self.fetchInvestmentsUseCase = fetchInvestmentsUseCase
+        self.state = initialState
     }
 
     func load() async {
