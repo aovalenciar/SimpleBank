@@ -67,7 +67,7 @@ final class InvestmentsViewSnapshotTests: XCTestCase {
                 state: .success(makeRows()),
                 colorScheme: .light
             ),
-            as: .image(layout: .device(config: .iPhone13))
+            as: .image(precision: 0.99, layout: .device(config: .iPhone13))
         )
     }
 
@@ -77,7 +77,7 @@ final class InvestmentsViewSnapshotTests: XCTestCase {
                 state: .success(makeRows()),
                 colorScheme: .dark
             ),
-            as: .image(layout: .device(config: .iPhone13))
+            as: .image(precision: 0.99, layout: .device(config: .iPhone13))
         )
     }
 }
