@@ -15,24 +15,48 @@ final class InvestmentsViewSnapshotTests: XCTestCase {
 
     func test_loadingState_lightMode() {
         assertSnapshot(
-            of: makeSUT(state: .loading)
-                .environment(\.colorScheme, .light),
+            of: makeSUT(state: .loading, colorScheme: .light),
+            as: .image(layout: .device(config: .iPhone13))
+        )
+    }
+
+    func test_loadingState_darkMode() {
+        assertSnapshot(
+            of: makeSUT(state: .loading, colorScheme: .dark),
             as: .image(layout: .device(config: .iPhone13))
         )
     }
 
     func test_emptyState_lightMode() {
         assertSnapshot(
-            of: makeSUT(state: .empty)
-                .environment(\.colorScheme, .light),
+            of: makeSUT(state: .empty, colorScheme: .light),
+            as: .image(layout: .device(config: .iPhone13))
+        )
+    }
+
+    func test_emptyState_darkMode() {
+        assertSnapshot(
+            of: makeSUT(state: .empty, colorScheme: .dark),
             as: .image(layout: .device(config: .iPhone13))
         )
     }
 
     func test_errorState_lightMode() {
         assertSnapshot(
-            of: makeSUT(state: .error("No pudimos cargar tus inversiones."))
-                .environment(\.colorScheme, .light),
+            of: makeSUT(
+                state: .error("No pudimos cargar tus inversiones."),
+                colorScheme: .light
+            ),
+            as: .image(layout: .device(config: .iPhone13))
+        )
+    }
+
+    func test_errorState_darkMode() {
+        assertSnapshot(
+            of: makeSUT(
+                state: .error("No pudimos cargar tus inversiones."),
+                colorScheme: .dark
+            ),
             as: .image(layout: .device(config: .iPhone13))
         )
     }
@@ -40,35 +64,52 @@ final class InvestmentsViewSnapshotTests: XCTestCase {
     func test_successState_lightMode() {
         assertSnapshot(
             of: makeSUT(
-                state: .success([
-                    InvestmentRowViewModel(
-                        id: UUID(uuidString: "00000000-0000-0000-0000-000000000001")!,
-                        title: "Nu",
-                        balanceText: "$25,000.00",
-                        annualRateText: "13% anual"
-                    )
-                ])
-            )
-            .environment(\.colorScheme, .light),
+                state: .success(makeRows()),
+                colorScheme: .light
+            ),
             as: .image(layout: .device(config: .iPhone13))
         )
     }
 
-    private func makeSUT(
-        state: InvestmentsViewState
-    ) -> some View {
-        let viewModel = InvestmentsViewModel(
-            fetchInvestmentsUseCase: FetchInvestmentsUseCaseStub(
-                result: .success([])
+    func test_successState_darkMode() {
+        assertSnapshot(
+            of: makeSUT(
+                state: .success(makeRows()),
+                colorScheme: .dark
             ),
-            initialState: state
+            as: .image(layout: .device(config: .iPhone13))
         )
+    }
+}
 
-        let router = InvestmentsRouter()
+private extension InvestmentsViewSnapshotTests {
 
-        return InvestmentsView(
-            viewModel: viewModel,
-            router: router
+    func makeSUT(
+        state: InvestmentsViewState,
+        colorScheme: ColorScheme
+    ) -> some View {
+        InvestmentsContentView(
+            state: state,
+            onRetry: {},
+            onSelectInvestment: { _ in }
         )
+        .environment(\.colorScheme, colorScheme)
+    }
+
+    func makeRows() -> [InvestmentRowViewModel] {
+        [
+            InvestmentRowViewModel(
+                id: UUID(uuidString: "00000000-0000-0000-0000-000000000001")!,
+                title: "Nu",
+                balanceText: "$25,000.00",
+                annualRateText: "13% anual"
+            ),
+            InvestmentRowViewModel(
+                id: UUID(uuidString: "00000000-0000-0000-0000-000000000002")!,
+                title: "Mercado Pago",
+                balanceText: "$15,500.00",
+                annualRateText: "10% anual"
+            )
+        ]
     }
 }

@@ -26,5 +26,6 @@ struct InvestmentDetailView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))
         .navigationTitle("Detail")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
