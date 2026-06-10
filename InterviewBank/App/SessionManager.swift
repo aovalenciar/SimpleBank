@@ -10,7 +10,7 @@ import Combine
 @MainActor
 final class SessionManager: ObservableObject {
 
-    enum State {
+    enum State: Equatable {
         case loggedOut
         case loggedIn
     }
