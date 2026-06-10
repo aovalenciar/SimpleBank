@@ -11,7 +11,7 @@ import SwiftUI
 struct InterviewBankApp: App {
     var body: some Scene {
         WindowGroup {
-            InvestmentsBuilder.build()
+            AppCoordinator()
         }
     }
 }
