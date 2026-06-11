@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 @MainActor
 final class SessionManager: ObservableObject {
@@ -15,13 +16,30 @@ final class SessionManager: ObservableObject {
         case loggedIn
     }
 
-    @Published private(set) var state: State = .loggedOut
+    @Published private(set) var state: State
+
+    private let sessionStore: SessionStoring
+
+    init(
+        sessionStore: SessionStoring = SessionStore()
+    ) {
+        self.sessionStore = sessionStore
+
+        if let token = try? sessionStore.readSessionToken(),
+           !token.isEmpty {
+            self.state = .loggedIn
+        } else {
+            self.state = .loggedOut
+        }
+    }
 
     func login() {
+        try? sessionStore.saveSessionToken("mock-session-token")
         state = .loggedIn
     }
 
     func logout() {
+        try? sessionStore.clearSession()
         state = .loggedOut
     }
 }
