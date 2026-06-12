@@ -62,13 +62,16 @@ struct InvestmentsView: View {
 
     @StateObject private var viewModel: InvestmentsViewModel
     @StateObject private var router: InvestmentsRouter
+    let onLogout: () -> Void
 
     init(
         viewModel: InvestmentsViewModel,
-        router: InvestmentsRouter
+        router: InvestmentsRouter,
+        onLogout: @escaping () -> Void
     ) {
         _viewModel = StateObject(wrappedValue: viewModel)
         _router = StateObject(wrappedValue: router)
+        self.onLogout = onLogout
     }
 
     var body: some View {
@@ -90,6 +93,13 @@ struct InvestmentsView: View {
                 switch route {
                 case .detail(let id):
                     InvestmentDetailView(investmentID: id)
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Logout") {
+                        onLogout()
+                    }
                 }
             }
             .task {

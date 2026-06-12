@@ -10,7 +10,7 @@ import SwiftUI
 enum InvestmentsBuilder {
 
     @MainActor
-    static func build() -> some View {
+    static func build(onLogout: @escaping () -> Void) -> some View {
 
         let repository = InvestmentsRepository()
 
@@ -26,7 +26,7 @@ enum InvestmentsBuilder {
 
         return InvestmentsView(
             viewModel: viewModel,
-            router: router
-        )
+            router: router,
+            onLogout: onLogout)
     }
 }
