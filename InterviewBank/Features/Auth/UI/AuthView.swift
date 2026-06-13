@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct AuthView: View {
 
     @StateObject private var viewModel: AuthViewModel
@@ -25,9 +27,25 @@ struct AuthView: View {
                 .font(.largeTitle.bold())
 
             Button("Login") {
-                viewModel.loginTapped()
+                Task {
+                    await viewModel.loginTapped()
+                }
             }
             .buttonStyle(.borderedProminent)
+            .disabled(viewModel.state == .loading)
+
+            switch viewModel.state {
+            case .idle:
+                EmptyView()
+
+            case .loading:
+                ProgressView("Iniciando sesión...")
+
+            case .error(let message):
+                Text(message)
+                    .foregroundStyle(.red)
+                    .multilineTextAlignment(.center)
+            }
         }
         .padding()
     }

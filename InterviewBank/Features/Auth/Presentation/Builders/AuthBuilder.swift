@@ -13,7 +13,14 @@ enum AuthBuilder {
     static func build(
         sessionManager: SessionManager
     ) -> some View {
+        let repository = MockAuthRepository()
+
+        let useCase = LoginUseCase(
+            repository: repository
+        )
+
         let viewModel = AuthViewModel(
+            loginUseCase: useCase,
             sessionManager: sessionManager
         )
 

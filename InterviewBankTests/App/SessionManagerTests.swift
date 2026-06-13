@@ -11,61 +11,55 @@ import XCTest
 @MainActor
 final class SessionManagerTests: XCTestCase {
 
-    func test_initialState_whenNoStoredToken_isLoggedOut() {
+    func test_initialState_whenNoStoredTokens_isLoggedOut() {
         let store = SessionStoreSpy()
         let sut = SessionManager(sessionStore: store)
 
         XCTAssertEqual(sut.state, .loggedOut)
     }
 
-    func test_initialState_whenStoredTokenExists_isLoggedIn() {
+    func test_initialState_whenStoredTokensExist_isLoggedIn() {
         let store = SessionStoreSpy()
-        store.token = "stored-token"
+        store.tokens = AuthTokens(
+            accessToken: "stored-access-token",
+            refreshToken: "stored-refresh-token"
+        )
 
         let sut = SessionManager(sessionStore: store)
 
         XCTAssertEqual(sut.state, .loggedIn)
     }
 
-    func test_login_updatesStateToLoggedIn() {
+    func test_saveSession_savesTokensAndUpdatesStateToLoggedIn() {
         let store = SessionStoreSpy()
         let sut = SessionManager(sessionStore: store)
 
-        sut.login()
+        let tokens = AuthTokens(
+            accessToken: "access-token",
+            refreshToken: "refresh-token"
+        )
+
+        sut.saveSession(tokens: tokens)
 
         XCTAssertEqual(sut.state, .loggedIn)
-        XCTAssertEqual(store.saveSessionTokenCallCount, 1)
+        XCTAssertEqual(store.tokens, tokens)
+        XCTAssertEqual(store.saveTokensCallCount, 1)
     }
 
-    func test_logout_updatesStateToLoggedOut() {
+    func test_clearSession_clearsTokensAndUpdatesStateToLoggedOut() {
         let store = SessionStoreSpy()
         let sut = SessionManager(sessionStore: store)
 
-        sut.login()
-        sut.logout()
+        let tokens = AuthTokens(
+            accessToken: "access-token",
+            refreshToken: "refresh-token"
+        )
+
+        sut.saveSession(tokens: tokens)
+        sut.clearSession()
 
         XCTAssertEqual(sut.state, .loggedOut)
+        XCTAssertNil(store.tokens)
         XCTAssertEqual(store.clearSessionCallCount, 1)
-    }
-}
-
-private final class SessionStoreSpy: SessionStoring {
-
-    var token: String?
-    var saveSessionTokenCallCount = 0
-    var clearSessionCallCount = 0
-
-    func saveSessionToken(_ token: String) throws {
-        saveSessionTokenCallCount += 1
-        self.token = token
-    }
-
-    func readSessionToken() throws -> String? {
-        token
-    }
-
-    func clearSession() throws {
-        clearSessionCallCount += 1
-        token = nil
     }
 }

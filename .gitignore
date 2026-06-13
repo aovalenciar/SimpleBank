@@ -1,0 +1,63 @@
+# Playwright
+.playwright-mcp/
+
+# Xcode user files
+*.xcuserdatad
+*.xcuserstate
+xcuserdata/
+*.xccheckout
+*.moved-aside
+
+# Derived Data
+DerivedData/
+build/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# Swift Package Manager
+.build/
+.swiftpm/
+*.resolved
+
+# CocoaPods
+Pods/
+*.xcworkspace/xcshareddata/swiftpm
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Code coverage
+*.gcda
+*.gcno
+*.lcov
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Simulators
+iOSInjectionProject/
+
+# Environment / secrets
+.env
+*.pem
+*.p12
+*.mobileprovision
+*.cer
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~

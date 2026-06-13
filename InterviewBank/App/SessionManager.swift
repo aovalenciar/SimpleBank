@@ -25,20 +25,21 @@ final class SessionManager: ObservableObject {
     ) {
         self.sessionStore = sessionStore
 
-        if let token = try? sessionStore.readSessionToken(),
-           !token.isEmpty {
+        if let tokens = try? sessionStore.readTokens(),
+           tokens.accessToken.isEmpty == false,
+           tokens.refreshToken.isEmpty == false {
             self.state = .loggedIn
         } else {
             self.state = .loggedOut
         }
     }
 
-    func login() {
-        try? sessionStore.saveSessionToken("mock-session-token")
+    func saveSession(tokens: AuthTokens) {
+        try? sessionStore.saveTokens(tokens)
         state = .loggedIn
     }
 
-    func logout() {
+    func clearSession() {
         try? sessionStore.clearSession()
         state = .loggedOut
     }

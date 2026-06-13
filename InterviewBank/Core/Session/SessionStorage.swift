@@ -7,42 +7,59 @@
 
 import Foundation
 
+import Foundation
+
 protocol SessionStoring {
-    func saveSessionToken(_ token: String) throws
-    func readSessionToken() throws -> String?
+    func saveTokens(_ tokens: AuthTokens) throws
+    func readTokens() throws -> AuthTokens?
     func clearSession() throws
 }
 
 final class SessionStore: SessionStoring {
 
     private enum Keys {
-        static let sessionToken = "session_token"
+        static let authTokens = "auth_tokens"
     }
 
     private let keychainStorage: KeychainStoring
+    private let encoder: JSONEncoder
+    private let decoder: JSONDecoder
 
     init(
-        keychainStorage: KeychainStoring = KeychainStorage()
+        keychainStorage: KeychainStoring = KeychainStorage(),
+        encoder: JSONEncoder = JSONEncoder(),
+        decoder: JSONDecoder = JSONDecoder()
     ) {
         self.keychainStorage = keychainStorage
+        self.encoder = encoder
+        self.decoder = decoder
     }
 
-    func saveSessionToken(_ token: String) throws {
+    func saveTokens(_ tokens: AuthTokens) throws {
+        let data = try encoder.encode(tokens)
+        let value = String(decoding: data, as: UTF8.self)
+
         try keychainStorage.save(
-            token,
-            for: Keys.sessionToken
+            value,
+            for: Keys.authTokens
         )
     }
 
-    func readSessionToken() throws -> String? {
-        try keychainStorage.read(
-            for: Keys.sessionToken
-        )
+    func readTokens() throws -> AuthTokens? {
+        guard let value = try keychainStorage.read(for: Keys.authTokens) else {
+            return nil
+        }
+
+        guard let data = value.data(using: .utf8) else {
+            return nil
+        }
+
+        return try decoder.decode(AuthTokens.self, from: data)
     }
 
     func clearSession() throws {
         try keychainStorage.delete(
-            for: Keys.sessionToken
+            for: Keys.authTokens
         )
     }
 }
