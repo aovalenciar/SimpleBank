@@ -22,7 +22,7 @@ struct AppCoordinator: View {
         case .loggedIn:
             InvestmentsBuilder.build(
                 onLogout: {
-                    sessionManager.logout()
+                    sessionManager.clearSession()
                 }
             )
         }

@@ -10,34 +10,50 @@ import XCTest
 
 final class SessionStoreTests: XCTestCase {
 
-    func test_saveSessionToken_savesTokenInKeychain() throws {
+    func test_saveTokens_savesTokensInKeychain() throws {
         let keychain = KeychainStorageSpy()
         let sut = SessionStore(keychainStorage: keychain)
 
-        try sut.saveSessionToken("token")
+        let tokens = AuthTokens(
+            accessToken: "access-token",
+            refreshToken: "refresh-token"
+        )
 
-        XCTAssertEqual(keychain.savedValue, "token")
-        XCTAssertEqual(keychain.savedKey, "session_token")
+        try sut.saveTokens(tokens)
+
+        XCTAssertNotNil(keychain.savedValue)
+        XCTAssertEqual(keychain.savedKey, "auth_tokens")
     }
 
-    func test_readSessionToken_readsTokenFromKeychain() throws {
+    func test_readTokens_readsTokensFromKeychain() throws {
         let keychain = KeychainStorageSpy()
-        keychain.valueToReturn = "stored-token"
+
+        let tokens = AuthTokens(
+            accessToken: "access-token",
+            refreshToken: "refresh-token"
+        )
+
+        let data = try JSONEncoder().encode(tokens)
+        keychain.valueToReturn = String(
+            decoding: data,
+            as: UTF8.self
+        )
+
         let sut = SessionStore(keychainStorage: keychain)
 
-        let token = try sut.readSessionToken()
+        let result = try sut.readTokens()
 
-        XCTAssertEqual(token, "stored-token")
-        XCTAssertEqual(keychain.readKey, "session_token")
+        XCTAssertEqual(result, tokens)
+        XCTAssertEqual(keychain.readKey, "auth_tokens")
     }
 
-    func test_clearSession_deletesTokenFromKeychain() throws {
+    func test_clearSession_deletesTokensFromKeychain() throws {
         let keychain = KeychainStorageSpy()
         let sut = SessionStore(keychainStorage: keychain)
 
         try sut.clearSession()
 
-        XCTAssertEqual(keychain.deletedKey, "session_token")
+        XCTAssertEqual(keychain.deletedKey, "auth_tokens")
     }
 }
 

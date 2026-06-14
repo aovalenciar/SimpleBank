@@ -26,6 +26,7 @@
       }
     },
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:InterviewBank.xcodeproj",
         "identifier" : "392830B12FB2647D00C8D1D7",
